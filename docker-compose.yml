@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  power_monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: powerbot
+    container_name: powerbot
+    restart: always
+    volumes:
+      - ./.env:/src/.env:ro
+    environment:
+      - TZ=Europe/Kiev
+      - DATABASE_URL=postgresql://powerbot:powerbot_password@db/powerbot_db
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    container_name: powerbot_datab
+    restart: always
+    environment:
+      - POSTGRES_USER=powerbot
+      - POSTGRES_PASSWORD=powerbot_password
+      - POSTGRES_DB=powerbot_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    user: root
+
+volumes:
+  postgres_data:
