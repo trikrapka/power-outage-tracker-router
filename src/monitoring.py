@@ -59,7 +59,7 @@ async def monitor_power(context: ContextTypes.DEFAULT_TYPE, user_manager: UserMa
                                 text=f"🚫 Electricity is down for {identifier}"
                             )
 
-            if current_time.weekday() == 6 and current_time.hour == 23:
+            if current_time.weekday() == 6 and current_time.hour == 23 and current_time.minute == 59:
                 weekly_report = user_manager.generate_weekly_report(chat_id)
                 for identifier, report_data in weekly_report.items():
                     await context.bot.send_message(
